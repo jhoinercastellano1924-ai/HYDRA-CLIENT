@@ -1,13 +1,13 @@
 * { box-sizing: border-box; }
 :root {
-  --bg: #0a0d1a;
-  --card-bg: rgba(8, 12, 30, 0.9);
-  --text: #0044ff;
-  --accent: #0044ff;
-  --box-glow: rgba(0, 68, 255, 0.5);
-  --shadow-hover: rgba(0, 68, 255, 0.7);
-  --input-bg: #000;
-  --text-soft: #4488ff;
+  --bg: #050816;
+  --card-bg: rgba(4, 8, 25, 0.95);
+  --text: #0033cc;
+  --accent: #0033cc;
+  --box-glow: rgba(0, 51, 204, 0.5);
+  --shadow-hover: rgba(0, 51, 204, 0.7);
+  --input-bg: #010314;
+  --text-soft: #2244aa;
 }
 body {
   font-family: 'Orbitron', sans-serif;
@@ -95,9 +95,5 @@ button#copyBtn:hover { background: var(--accent); color: var(--input-bg); box-sh
 .hydra-text:hover { text-shadow: 0 0 30px var(--accent), 0 0 60px var(--accent), 0 0 80px var(--accent); }
 .logout-link { color: var(--text-soft); font-size: 14px; text-decoration: none; margin-left: 15px; }
 .logout-link:hover { color: var(--accent); }
-.users-panel { margin-top: 20px; padding: 15px; border: 1px solid var(--accent); border-radius: 10px; background: rgba(0,0,0,0.3); text-align: left; max-height: 200px; overflow-y: auto; }
-.users-panel h3 { color: var(--accent); font-size: 16px; margin: 0 0 10px 0; text-shadow: 0 0 8px var(--accent); text-align: center; }
-.users-panel .user-item { color: var(--text-soft); font-size: 13px; padding: 4px 0; border-bottom: 1px solid rgba(68,136,255,0.2); }
-.users-panel .user-item:last-child { border-bottom: none; }
 
 @media (max-width: 600px) { .card { padding: 30px; } .card h1 { font-size: 28px; } }

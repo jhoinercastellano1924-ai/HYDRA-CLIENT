@@ -1,11 +1,11 @@
 particlesJS("particles-js", {
   particles: {
     number: { value: 80 },
-    color: { value: "#0044ff" },
+    color: { value: "#0033cc" },
     shape: { type: "circle" },
     opacity: { value: 0.5 },
     size: { value: 3 },
-    line_linked: { enable: true, distance: 150, color: "#0044ff", opacity: 0.4, width: 1 },
+    line_linked: { enable: true, distance: 150, color: "#0033cc", opacity: 0.4, width: 1 },
     move: { enable: true, speed: 2 }
   }
 });
@@ -14,21 +14,6 @@ function showScreen(name) {
   document.getElementById("authScreen").classList.remove("active");
   document.getElementById("converterScreen").classList.remove("active");
   document.getElementById(name === "auth" ? "authScreen" : "converterScreen").classList.add("active");
-}
-
-function refreshUsersList() {
-  var list = document.getElementById("usersList");
-  if (!list) return;
-  var users = JSON.parse(localStorage.getItem("hydra_users") || "[]");
-  if (users.length === 0) {
-    list.innerHTML = '<div class="user-item" style="text-align:center;color:#666;">No hay usuarios registrados</div>';
-    return;
-  }
-  var html = "";
-  for (var i = 0; i < users.length; i++) {
-    html += '<div class="user-item">' + (i+1) + '. ' + users[i].username + '</div>';
-  }
-  list.innerHTML = html;
 }
 
 function downloadUsers() {
@@ -53,7 +38,6 @@ if (session) {
   showScreen("converter");
   var ud = document.getElementById("userDisplay");
   if (ud) ud.textContent = "Bienvenido, " + session.username;
-  refreshUsersList();
 } else {
   showScreen("auth");
 }
@@ -116,7 +100,6 @@ function login() {
   localStorage.setItem("hydra_session", JSON.stringify(user));
   var userDisplay = document.getElementById("userDisplay");
   if (userDisplay) userDisplay.textContent = "Bienvenido, " + user.username;
-  refreshUsersList();
   showScreen("converter");
 }
 
