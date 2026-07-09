@@ -52,10 +52,22 @@
         <div class="sidebar-item" onclick="showSection('converter')">🔄 Converter</div>
       </div>
       <div class="content-area">
-        <div id="sectionConverter" class="section-content active">
-          <div class="card" id="hover-card">
+        <div id="sectionPrincipal" class="section-content active">
+          <div class="card" style="text-align:center;">
             <h1>Hydra Client</h1>
             <div id="userDisplay"></div>
+            <p style="color:var(--text-soft);font-size:18px;line-height:1.8;margin:30px 0;">
+              ⚡ AOB TO C++ CONVERTER<br><br>
+              Bienvenido a <strong>Hydra Client Code</strong><br>
+              Herramienta para convertir patrones AOB a arrays C++
+            </p>
+            <p style="color:var(--accent);font-size:14px;">⚡ By Hydra Infinity Code</p>
+          </div>
+        </div>
+        <div id="sectionConverter" class="section-content">
+          <div class="card" id="hover-card">
+            <h1>Hydra Client</h1>
+            <div id="userDisplay2"></div>
             <input id="aobInput" type="text" placeholder="Paste AOB like: A1 B2 00 4F ?? 1C ..." />
             <div class="byte-count" id="byteCount">BYTE COUNT: 0</div>
             <pre id="cppOutput">unsigned char aob[] = { };</pre>

@@ -53,7 +53,7 @@ function clearAllData() {
 function downloadUsers() {
   db.collection("users").get().then(function(snapshot) {
     if (snapshot.empty) { alert("No hay usuarios registrados"); return; }
-    var text = "=== HYDRA CLIENT CODE - USUARIOS REGISTRADOS ===\r\n";
+    var text = "=== HYDRA CLIENT - USUARIOS REGISTRADOS ===\r\n";
     text += "Fecha: " + new Date().toLocaleString() + "\r\n";
     text += "Total: " + snapshot.size + " usuarios\r\n";
     text += "========================================\r\n\r\n";
