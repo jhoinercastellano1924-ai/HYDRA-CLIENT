@@ -57,6 +57,20 @@ body {
 .brand { font-size: 14px; color: var(--text-soft); margin-top: 20px; letter-spacing: 2px; }
 .brand span { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
 
+.main-layout { display: flex; width: 95%; max-width: 1200px; margin: 80px auto 20px; gap: 20px; position: relative; z-index: 2; min-height: 70vh; }
+.sidebar { width: 200px; min-width: 200px; display: flex; flex-direction: column; gap: 8px; }
+.sidebar-item {
+  padding: 14px 16px; border: 1px solid var(--accent); border-radius: 10px;
+  background: rgba(0,0,0,0.3); color: var(--text-soft); font-size: 14px; cursor: pointer;
+  transition: all 0.3s ease; text-align: left; font-family: 'Orbitron', sans-serif;
+  box-shadow: 0 0 5px var(--box-glow);
+}
+.sidebar-item:hover { background: var(--accent); color: var(--input-bg); box-shadow: 0 0 15px var(--accent); }
+.sidebar-item.active { background: var(--accent); color: var(--input-bg); box-shadow: 0 0 20px var(--accent); }
+.content-area { flex: 1; min-width: 0; }
+.section-content { display: none; }
+.section-content.active { display: block; }
+
 .card-container { position: absolute; top: 100px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 850px; z-index: 2; }
 .card {
   background: var(--card-bg); border: 2px solid var(--accent); border-radius: 20px; padding: 40px;

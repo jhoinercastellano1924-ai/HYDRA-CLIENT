@@ -10,6 +10,30 @@ particlesJS("particles-js", {
   }
 });
 
+function showSection(name) {
+  var sections = document.querySelectorAll(".section-content");
+  var items = document.querySelectorAll(".sidebar-item");
+  for (var i = 0; i < sections.length; i++) sections[i].classList.remove("active");
+  for (var i = 0; i < items.length; i++) items[i].classList.remove("active");
+  document.getElementById("section" + name.charAt(0).toUpperCase() + name.slice(1)).classList.add("active");
+  if (name === "users") refreshUsersInner();
+  var idx = { converter: 0, users: 1, about: 2, help: 3 }[name];
+  if (idx !== undefined && items[idx]) items[idx].classList.add("active");
+}
+
+function refreshUsersInner() {
+  var list = document.getElementById("usersListInner");
+  if (!list) return;
+  var users = JSON.parse(localStorage.getItem("hydra_users") || "[]");
+  if (users.length === 0) { list.innerHTML = "<div style='text-align:center;color:#666;padding:20px;'>No hay usuarios registrados</div>"; return; }
+  var html = "<div style='border-bottom:1px solid var(--accent);padding:8px 0;color:var(--accent);font-size:14px;'>USUARIO</div>";
+  for (var i = 0; i < users.length; i++) {
+    html += "<div style='padding:8px 0;border-bottom:1px solid rgba(0,51,204,0.2);display:flex;justify-content:space-between;'>" +
+      "<span>" + users[i].username + "</span></div>";
+  }
+  list.innerHTML = html;
+}
+
 function showScreen(name) {
   document.getElementById("authScreen").classList.remove("active");
   document.getElementById("converterScreen").classList.remove("active");

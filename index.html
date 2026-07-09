@@ -39,15 +39,45 @@
   </div>
 
   <div id="converterScreen" class="screen">
-    <div class="card-container">
-      <div class="card" id="hover-card">
-        <h1>Hydra Client Code</h1>
-        <div id="userDisplay"></div>
-        <input id="aobInput" type="text" placeholder="Paste AOB like: A1 B2 00 4F ?? 1C ..." />
-        <div class="byte-count" id="byteCount">BYTE COUNT: 0</div>
-        <pre id="cppOutput">unsigned char aob[] = { };</pre>
-        <button id="copyBtn">📋 Copy Code</button>
-        <button class="btn-small" onclick="downloadUsers()" style="margin-top:15px;">📥 Descargar usuarios.txt</button>
+    <div class="main-layout">
+      <div class="sidebar">
+        <div class="sidebar-item active" onclick="showSection('converter')">⚡ Converter</div>
+        <div class="sidebar-item" onclick="showSection('users')">👥 Usuarios</div>
+        <div class="sidebar-item" onclick="downloadUsers()">📥 Descargar</div>
+        <div class="sidebar-item" onclick="showSection('about')">ℹ️ Acerca de</div>
+        <div class="sidebar-item" onclick="showSection('help')">❓ Ayuda</div>
+        <div class="sidebar-item" onclick="logout()">🚪 Salir</div>
+      </div>
+      <div class="content-area">
+        <div id="sectionConverter" class="section-content active">
+          <div class="card" id="hover-card">
+            <h1>Hydra Client Code</h1>
+            <div id="userDisplay"></div>
+            <input id="aobInput" type="text" placeholder="Paste AOB like: A1 B2 00 4F ?? 1C ..." />
+            <div class="byte-count" id="byteCount">BYTE COUNT: 0</div>
+            <pre id="cppOutput">unsigned char aob[] = { };</pre>
+            <button id="copyBtn">📋 Copy Code</button>
+          </div>
+        </div>
+        <div id="sectionUsers" class="section-content">
+          <div class="card">
+            <h1>Usuarios</h1>
+            <div id="usersListInner" style="color:var(--text-soft);font-size:16px;text-align:left;padding:20px;max-height:400px;overflow-y:auto;"></div>
+            <button class="btn-small" onclick="downloadUsers()" style="margin-top:15px;">📥 Descargar usuarios.txt</button>
+          </div>
+        </div>
+        <div id="sectionAbout" class="section-content">
+          <div class="card">
+            <h1>Hydra Client Code</h1>
+            <p style="color:var(--text-soft);font-size:16px;line-height:1.8;">⚡ AOB TO C++ CONVERTER<br><br>Versión 1.0<br>© 2026 BY HYDRA INFINITY CODE</p>
+          </div>
+        </div>
+        <div id="sectionHelp" class="section-content">
+          <div class="card">
+            <h1>Ayuda</h1>
+            <p style="color:var(--text-soft);font-size:14px;line-height:1.8;">Pega tu AOB en el campo de texto.<br>Ejemplo: A1 B2 00 4F ?? 1C<br><br>?? = byte desconocido<br>Los bytes se convierten a formato C++</p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="footer">© 2026 BY HYDRA INFINITY CODE</div>
