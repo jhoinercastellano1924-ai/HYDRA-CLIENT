@@ -176,13 +176,16 @@ function updateStatUsers(count) {
 auth.onAuthStateChanged(function(user) {
   var ud = document.getElementById("userDisplay");
   var ud2 = document.getElementById("userDisplay2");
+  var footerAuth = document.getElementById("footerAuth");
   if (user) {
     showScreen("converter");
     if (ud) ud.textContent = "Bienvenido, " + user.displayName;
     if (ud2) ud2.textContent = user.displayName;
     refreshUsersInner();
+    if (footerAuth) footerAuth.style.display = "none";
   } else {
     showScreen("auth");
+    if (footerAuth) footerAuth.style.display = "block";
   }
 });
 
