@@ -7,36 +7,119 @@
   <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="pragma" content="no-cache" />
   <meta http-equiv="expires" content="0" />
-  <link rel="stylesheet" href="style.css?v=3" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=4" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
   <div id="particles-js"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
 
   <div id="authScreen" class="screen active">
-    <div class="auth-container">
-      <div class="auth-card">
-        <h1>Hydra Client</h1>
-        <div class="subtitle">AOB TO C++ CONVERTER</div>
-        <div class="tabs">
-          <button id="tabLogin" class="active">Iniciar Sesión</button>
-          <button id="tabRegister">Registrarse</button>
+    <div class="auth-wrapper">
+      <div class="auth-left">
+        <div class="logo-area">
+          <div class="logo-glow"></div>
+          <div class="logo">
+            <span class="logo-icon">⚡</span>
+            <span class="logo-text">HYDRA</span>
+            <span class="logo-sub">CLIENT</span>
+          </div>
+          <div class="logo-tagline">AOB TO C++ CONVERTER</div>
         </div>
-        <div id="msg" class="error"></div>
-        <div id="formLogin" class="form-container active">
-          <input type="text" id="loginUser" placeholder="Usuario" />
-          <input type="password" id="loginPassword" placeholder="Contraseña" />
-          <button onclick="login()">ENTRAR</button>
-          <div class="link">¿No tienes cuenta? <a href="#" id="goRegister">Regístrate</a></div>
+        <div class="features">
+          <div class="feature">
+            <span class="feature-icon">⚡</span>
+            <span>Fast Conversion</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🔒</span>
+            <span>Secure Auth</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">☁️</span>
+            <span>Cloud Sync</span>
+          </div>
         </div>
-        <div id="formRegister" class="form-container">
-          <input type="text" id="regUsername" placeholder="Nuevo usuario" />
-          <input type="password" id="regPassword" placeholder="Contraseña" />
-          <input type="password" id="regConfirm" placeholder="Confirmar contraseña" />
-          <button onclick="register()">REGISTRARSE</button>
-          <div class="link">¿Ya tienes cuenta? <a href="#" id="goLogin">Inicia sesión</a></div>
+      </div>
+      <div class="auth-right">
+        <div class="auth-card">
+          <div class="card-header">
+            <h1>Welcome Back</h1>
+            <p>Sign in to access your converter</p>
+          </div>
+          <div class="tabs" role="tablist">
+            <button id="tabLogin" class="tab active" role="tab" aria-selected="true">Sign In</button>
+            <button id="tabRegister" class="tab" role="tab" aria-selected="false">Register</button>
+          </div>
+          <div id="msg" class="msg"></div>
+          
+          <form id="formLogin" class="form active" role="tabpanel">
+            <div class="input-group">
+              <label for="loginUser">Username</label>
+              <div class="input-wrapper">
+                <span class="input-icon">👤</span>
+                <input type="text" id="loginUser" placeholder="Enter username" autocomplete="username" required />
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="loginPassword">Password</label>
+              <div class="input-wrapper">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password" required />
+                <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')" aria-label="Toggle password">👁</button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="event.preventDefault(); login()">
+              <span class="btn-text">Sign In</span>
+              <span class="btn-loader"></span>
+            </button>
+            <p class="switch-tab">Don't have an account? <a href="#" id="goRegister">Create one</a></p>
+          </form>
+
+          <form id="formRegister" class="form" role="tabpanel" hidden>
+            <div class="input-group">
+              <label for="regUsername">Username</label>
+              <div class="input-wrapper">
+                <span class="input-icon">👤</span>
+                <input type="text" id="regUsername" placeholder="Choose username" autocomplete="username" required />
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="regPassword">Password</label>
+              <div class="input-wrapper">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="regPassword" placeholder="Create password" autocomplete="new-password" required />
+                <button type="button" class="toggle-password" onclick="togglePassword('regPassword')" aria-label="Toggle password">👁</button>
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="regConfirm">Confirm Password</label>
+              <div class="input-wrapper">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="regConfirm" placeholder="Confirm password" autocomplete="new-password" required />
+                <button type="button" class="toggle-password" onclick="togglePassword('regConfirm')" aria-label="Toggle password">👁</button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="event.preventDefault(); register()">
+              <span class="btn-text">Create Account</span>
+              <span class="btn-loader"></span>
+            </button>
+            <p class="switch-tab">Already have an account? <a href="#" id="goLogin">Sign In</a></p>
+          </form>
+
+          <div class="divider"><span>or continue with</span></div>
+          <div class="social-buttons">
+            <button type="button" class="btn-social" onclick="alert('Firebase Google Auth not configured')">
+              <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/></svg>
+              <span>Google</span>
+            </button>
+            <button type="button" class="btn-social" onclick="alert('Firebase GitHub Auth not configured')">
+              <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.75-.015-.765.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.28-1.56 3.285-1.23 3.285-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              <span>GitHub</span>
+            </button>
+          </div>
         </div>
-        <div class="brand">⚡ <span>Hydra Client</span> ⚡</div>
       </div>
     </div>
   </div>
@@ -44,53 +127,69 @@
   <div id="converterScreen" class="screen">
     <div class="main-layout">
       <div class="sidebar">
-        <div class="sidebar-item active" onclick="showSection('converter')">⚡ Principal</div>
+        <div class="sidebar-item active" onclick="showSection('principal')">⚡ Principal</div>
+        <div class="sidebar-item" onclick="showSection('converter')">🔄 Converter</div>
         <div class="sidebar-item" onclick="showSection('users')">👥 Usuarios</div>
         <div class="sidebar-item" onclick="downloadUsers()">📥 Descargar</div>
         <div class="sidebar-item" onclick="showSection('about')">ℹ️ Acerca de</div>
         <div class="sidebar-item" onclick="showSection('help')">❓ Ayuda</div>
-        <div class="sidebar-item" onclick="showSection('converter')">🔄 Converter</div>
       </div>
       <div class="content-area">
         <div id="sectionPrincipal" class="section-content active">
-          <div class="card" style="text-align:center;">
-            <h1>Hydra Client</h1>
-            <div id="userDisplay"></div>
-            <p style="color:var(--text-soft);font-size:18px;line-height:1.8;margin:30px 0;">
-              ⚡ AOB TO C++ CONVERTER<br><br>
-              Bienvenido a <strong>Hydra Client Code</strong><br>
-              Herramienta para convertir patrones AOB a arrays C++
-            </p>
-            <p style="color:var(--accent);font-size:14px;">⚡ By Hydra Infinity Code</p>
+          <div class="card welcome-card">
+            <div class="welcome-content">
+              <div class="welcome-icon">⚡</div>
+              <h1>Hydra Client</h1>
+              <p class="welcome-desc">AOB TO C++ CONVERTER</p>
+              <p class="welcome-sub">Welcome to <strong>Hydra Client Code</strong><br>Advanced AOB to C++ array converter</p>
+              <div class="stats">
+                <div class="stat"><span class="stat-value" id="statUsers">0</span><span class="stat-label">Users</span></div>
+                <div class="stat"><span class="stat-value" id="statConversions">0</span><span class="stat-label">Conversions</span></div>
+              </div>
+              <p class="credit">⚡ By Hydra Infinity Code</p>
+            </div>
           </div>
         </div>
         <div id="sectionConverter" class="section-content">
-          <div class="card" id="hover-card">
-            <h1>Hydra Client</h1>
-            <div id="userDisplay2"></div>
-            <input id="aobInput" type="text" placeholder="Paste AOB like: A1 B2 00 4F ?? 1C ..." />
-            <div class="byte-count" id="byteCount">BYTE COUNT: 0</div>
-            <pre id="cppOutput">unsigned char aob[] = { };</pre>
-            <button id="copyBtn">📋 Copy Code</button>
+          <div class="card converter-card" id="hover-card">
+            <div class="converter-header">
+              <h1>Hydra Client</h1>
+              <div id="userDisplay2"></div>
+            </div>
+            <div class="converter-body">
+              <div class="input-group">
+                <label for="aobInput">AOB Pattern</label>
+                <input id="aobInput" type="text" placeholder="Paste AOB: A1 B2 00 4F ?? 1C ..." />
+              </div>
+              <div class="byte-count" id="byteCount">BYTE COUNT: 0</div>
+              <div class="output-group">
+                <label>C++ Array Output</label>
+                <pre id="cppOutput">unsigned char aob[] = { };</pre>
+              </div>
+              <button id="copyBtn" class="btn btn-primary" onclick="copyCode()">
+                <span class="btn-text">📋 Copy Code</span>
+                <span class="btn-loader"></span>
+              </button>
+            </div>
           </div>
         </div>
         <div id="sectionUsers" class="section-content">
           <div class="card">
-            <h1>Usuarios</h1>
-            <div id="usersListInner" style="color:var(--text-soft);font-size:16px;text-align:left;padding:20px;max-height:400px;overflow-y:auto;"></div>
-            <button class="btn-small" onclick="downloadUsers()" style="margin-top:15px;">📥 Descargar usuarios.txt</button>
-            <button class="btn-small" onclick="clearAllData()" style="margin-top:10px;background:rgba(255,0,0,0.2);border-color:#ff4444;color:#ff8888;">🗑️ Borrar TODOS los datos</button>
+            <div class="card-header"><h1>Usuarios</h1></div>
+            <div id="usersListInner" class="users-list"></div>
+            <button class="btn btn-primary" onclick="downloadUsers()" style="margin-top:15px;">📥 Descargar usuarios.txt</button>
+            <button class="btn btn-danger" onclick="clearAllData()" style="margin-top:10px;">🗑️ Borrar TODOS los datos</button>
           </div>
         </div>
         <div id="sectionAbout" class="section-content">
           <div class="card">
-            <h1>Hydra Client</h1>
+            <div class="card-header"><h1>Hydra Client</h1></div>
             <p style="color:var(--text-soft);font-size:16px;line-height:1.8;">⚡ AOB TO C++ CONVERTER<br><br>Versión 1.0<br>© 2026 BY HYDRA INFINITY CODE</p>
           </div>
         </div>
         <div id="sectionHelp" class="section-content">
           <div class="card">
-            <h1>Ayuda</h1>
+            <div class="card-header"><h1>Ayuda</h1></div>
             <p style="color:var(--text-soft);font-size:14px;line-height:1.8;">Pega tu AOB en el campo de texto.<br>Ejemplo: A1 B2 00 4F ?? 1C<br><br>?? = byte desconocido<br>Los bytes se convierten a formato C++</p>
           </div>
         </div>
@@ -122,6 +221,6 @@
     const db = firebase.firestore();
   </script>
   <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
