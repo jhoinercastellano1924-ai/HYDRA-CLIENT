@@ -1,69 +1,161 @@
-function setParticles(color = "#0044ff") {
-  particlesJS("particles-js", {
-    particles: {
-      number: { value: 80 },
-      color: { value: color },
-      shape: { type: "circle" },
-      opacity: { value: 0.5 },
-      size: { value: 3 },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: color,
-        opacity: 0.4,
-        width: 1
-      },
-      move: { enable: true, speed: 2 }
-    }
-  });
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 80 },
+    color: { value: "#0044ff" },
+    shape: { type: "circle" },
+    opacity: { value: 0.5 },
+    size: { value: 3 },
+    line_linked: { enable: true, distance: 150, color: "#0044ff", opacity: 0.4, width: 1 },
+    move: { enable: true, speed: 2 }
+  }
+});
+
+function showScreen(name) {
+  document.getElementById("authScreen").classList.remove("active");
+  document.getElementById("converterScreen").classList.remove("active");
+  document.getElementById(name === "auth" ? "authScreen" : "converterScreen").classList.add("active");
 }
 
-setParticles("#0044ff");
-
-const aobInput = document.getElementById("aobInput");
-const cppOutput = document.getElementById("cppOutput");
-const byteCount = document.getElementById("byteCount");
-
-aobInput.addEventListener("input", () => {
-  const parts = aobInput.value.trim().split(/\s+/);
-  let bytes = [];
-  let count = 0;
-  for (let part of parts) {
-    if (part === "??") {
-      bytes.push("/* ? */");
-    } else if (/^[A-Fa-f0-9]{2}$/.test(part)) {
-      bytes.push("0x" + part.toUpperCase());
-      count++;
-    }
+function refreshUsersList() {
+  var list = document.getElementById("usersList");
+  if (!list) return;
+  var users = JSON.parse(localStorage.getItem("hydra_users") || "[]");
+  if (users.length === 0) {
+    list.innerHTML = '<div class="user-item" style="text-align:center;color:#666;">No hay usuarios registrados</div>';
+    return;
   }
-  byteCount.textContent = `BYTE COUNT: ${count}`;
-  cppOutput.textContent = `unsigned char aob[] = { ${bytes.join(", ")} };`;
+  var html = "";
+  for (var i = 0; i < users.length; i++) {
+    html += '<div class="user-item">' + (i+1) + '. ' + users[i].username + '</div>';
+  }
+  list.innerHTML = html;
+}
+
+function downloadUsers() {
+  var users = JSON.parse(localStorage.getItem("hydra_users") || "[]");
+  if (users.length === 0) { alert("No hay usuarios registrados en este navegador"); return; }
+  var text = "=== HYDRA CLIENT CODE - USUARIOS REGISTRADOS ===\r\n";
+  text += "Fecha: " + new Date().toLocaleString() + "\r\n";
+  text += "Total: " + users.length + " usuarios\r\n";
+  text += "========================================\r\n\r\n";
+  for (var i = 0; i < users.length; i++) {
+    text += (i+1) + ". " + users[i].username + "\r\n";
+  }
+  var blob = new Blob([text], { type: "text/plain" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "usuarios_hydra.txt";
+  a.click();
+}
+
+var session = JSON.parse(localStorage.getItem("hydra_session"));
+if (session) {
+  showScreen("converter");
+  var ud = document.getElementById("userDisplay");
+  if (ud) ud.textContent = "Bienvenido, " + session.username;
+  refreshUsersList();
+} else {
+  showScreen("auth");
+}
+
+function logout() {
+  localStorage.removeItem("hydra_session");
+  showScreen("auth");
+}
+
+function msg(text, isError) {
+  var el = document.getElementById("msg");
+  el.textContent = text;
+  el.className = isError ? "error" : "success";
+}
+
+function showForm(form) {
+  document.getElementById("formLogin").classList.remove("active");
+  document.getElementById("formRegister").classList.remove("active");
+  document.getElementById("tabLogin").classList.remove("active");
+  document.getElementById("tabRegister").classList.remove("active");
+  document.getElementById("form" + (form === "login" ? "Login" : "Register")).classList.add("active");
+  document.getElementById("tab" + (form === "login" ? "Login" : "Register")).classList.add("active");
+  msg("");
+}
+
+document.getElementById("tabLogin").addEventListener("click", function() { showForm("login"); });
+document.getElementById("tabRegister").addEventListener("click", function() { showForm("register"); });
+document.getElementById("goRegister").addEventListener("click", function(e) { e.preventDefault(); showForm("register"); });
+document.getElementById("goLogin").addEventListener("click", function(e) { e.preventDefault(); showForm("login"); });
+
+function register() {
+  var username = document.getElementById("regUsername").value.trim();
+  var password = document.getElementById("regPassword").value;
+  var confirm = document.getElementById("regConfirm").value;
+
+  if (!username || !password || !confirm) { msg("Todos los campos son obligatorios", true); return; }
+  if (password.length < 6) { msg("La contraseña debe tener al menos 6 caracteres", true); return; }
+  if (password !== confirm) { msg("Las contraseñas no coinciden", true); return; }
+
+  var users = JSON.parse(localStorage.getItem("hydra_users") || "[]");
+  if (users.find(function(u) { return u.username === username; })) { msg("Este usuario ya existe", true); return; }
+
+  users.push({ username: username, password: password });
+  localStorage.setItem("hydra_users", JSON.stringify(users));
+  msg("Registro exitoso. Ahora inicia sesión.", false);
+  showForm("login");
+}
+
+function login() {
+  var input = document.getElementById("loginUser").value.trim();
+  var password = document.getElementById("loginPassword").value;
+
+  if (!input || !password) { msg("Todos los campos son obligatorios", true); return; }
+
+  var users = JSON.parse(localStorage.getItem("hydra_users") || "[]");
+  var user = users.find(function(u) { return u.username === input && u.password === password; });
+
+  if (!user) { msg("Usuario o contraseña incorrectos", true); return; }
+
+  localStorage.setItem("hydra_session", JSON.stringify(user));
+  var userDisplay = document.getElementById("userDisplay");
+  if (userDisplay) userDisplay.textContent = "Bienvenido, " + user.username;
+  refreshUsersList();
+  showScreen("converter");
+}
+
+var aobInput = document.getElementById("aobInput");
+var cppOutput = document.getElementById("cppOutput");
+var byteCount = document.getElementById("byteCount");
+
+aobInput.addEventListener("input", function() {
+  var parts = aobInput.value.trim().split(/\s+/);
+  var bytes = [];
+  var count = 0;
+  for (var i = 0; i < parts.length; i++) {
+    if (parts[i] === "??") { bytes.push("/* ? */"); }
+    else if (/^[A-Fa-f0-9]{2}$/.test(parts[i])) { bytes.push("0x" + parts[i].toUpperCase()); count++; }
+  }
+  byteCount.textContent = "BYTE COUNT: " + count;
+  cppOutput.textContent = "unsigned char aob[] = { " + bytes.join(", ") + " };";
 });
 
-document.getElementById("copyBtn").addEventListener("click", () => {
-  const code = cppOutput.textContent;
-  navigator.clipboard.writeText(code).then(() => {
-    const btn = document.getElementById("copyBtn");
+document.getElementById("copyBtn").addEventListener("click", function() {
+  var code = cppOutput.textContent;
+  navigator.clipboard.writeText(code).then(function() {
+    var btn = document.getElementById("copyBtn");
     btn.textContent = "✔️ Copied!";
-    setTimeout(() => {
-      btn.textContent = "📋 Copy Code";
-    }, 1500);
+    setTimeout(function() { btn.textContent = "📋 Copy Code"; }, 1500);
   });
 });
 
-const hoverCard = document.getElementById("hover-card");
-
-document.addEventListener("mousemove", (e) => {
-  const rect = hoverCard.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
-  const deltaX = e.clientX - centerX;
-  const deltaY = e.clientY - centerY;
-  const rotateX = (deltaY / rect.height) * -10;
-  const rotateY = (deltaX / rect.width) * 10;
-  hoverCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+var hoverCard = document.getElementById("hover-card");
+document.addEventListener("mousemove", function(e) {
+  var rect = hoverCard.getBoundingClientRect();
+  var centerX = rect.left + rect.width / 2;
+  var centerY = rect.top + rect.height / 2;
+  var deltaX = e.clientX - centerX;
+  var deltaY = e.clientY - centerY;
+  var rotateX = (deltaY / rect.height) * -10;
+  var rotateY = (deltaX / rect.width) * 10;
+  hoverCard.style.transform = "rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg)";
 });
-
-document.addEventListener("mouseleave", () => {
-  hoverCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+document.addEventListener("mouseleave", function() {
+  hoverCard.style.transform = "rotateX(0deg) rotateY(0deg)";
 });

@@ -10,29 +10,58 @@
 <body>
   <div id="particles-js"></div>
 
- 
-
-  <!-- Card -->
-  <div class="card-container">
-    <div class="card" id="hover-card">
-      <h1>Hydra Client Code</h1>
-      <input id="aobInput" type="text" placeholder="Paste AOB like: A1 B2 00 4F ?? 1C ..." />
-      <div class="byte-count" id="byteCount">BYTE COUNT: 0</div>
-      <pre id="cppOutput">unsigned char aob[] = { };</pre>
-      <button id="copyBtn">📋 Copy Code</button>
+  <div id="authScreen" class="screen active">
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1>Hydra Client Code</h1>
+        <div class="subtitle">AOB TO C++ CONVERTER</div>
+        <div class="tabs">
+          <button id="tabLogin" class="active">Iniciar Sesión</button>
+          <button id="tabRegister">Registrarse</button>
+        </div>
+        <div id="msg" class="error"></div>
+        <div id="formLogin" class="form-container active">
+          <input type="text" id="loginUser" placeholder="Usuario" />
+          <input type="password" id="loginPassword" placeholder="Contraseña" />
+          <button onclick="login()">ENTRAR</button>
+          <div class="link">¿No tienes cuenta? <a href="#" id="goRegister">Regístrate</a></div>
+        </div>
+        <div id="formRegister" class="form-container">
+          <input type="text" id="regUsername" placeholder="Nuevo usuario" />
+          <input type="password" id="regPassword" placeholder="Contraseña" />
+          <input type="password" id="regConfirm" placeholder="Confirmar contraseña" />
+          <button onclick="register()">REGISTRARSE</button>
+          <div class="link">¿Ya tienes cuenta? <a href="#" id="goLogin">Inicia sesión</a></div>
+        </div>
+        <div class="brand">⚡ <span>Hydra Client Code</span> ⚡</div>
+      </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="footer">© 2026 BY HYDRA INFINITY CODE</div>
+  <div id="converterScreen" class="screen">
+    <div class="card-container">
+      <div class="card" id="hover-card">
+        <h1>Hydra Client Code</h1>
+        <div id="userDisplay"></div>
+        <input id="aobInput" type="text" placeholder="Paste AOB like: A1 B2 00 4F ?? 1C ..." />
+        <div class="byte-count" id="byteCount">BYTE COUNT: 0</div>
+        <pre id="cppOutput">unsigned char aob[] = { };</pre>
+        <button id="copyBtn">📋 Copy Code</button>
+        <button class="btn-small" onclick="downloadUsers()" style="margin-top:15px;">📥 Descargar usuarios.txt</button>
+        <div class="users-panel">
+          <h3>📋 Usuarios Registrados</h3>
+          <div id="usersList"></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">© 2026 BY HYDRA INFINITY CODE</div>
+  </div>
 
-  <!-- Contact Section -->
   <div class="contact-section">
-    <p>⚡ <span class="hydra-text">Hydra Client Code</span> ⚡</p>
+    <p>⚡ <span class="hydra-text">Hydra Client Code</span> ⚡ | <a href="#" class="logout-link" onclick="logout()">Cerrar sesión</a></p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
