@@ -17,19 +17,6 @@ function togglePassword(id) {
   else { input.type = "password"; btn.textContent = "👁"; }
 }
 
-function showSection(name) {
-  var sections = document.querySelectorAll(".section-content");
-  var items = document.querySelectorAll(".sidebar-item");
-  for (var i = 0; i < sections.length; i++) sections[i].classList.remove("active");
-  for (var i = 0; i < items.length; i++) items[i].classList.remove("active");
-  var sectionId = "section" + name.charAt(0).toUpperCase() + name.slice(1);
-  var section = document.getElementById(sectionId);
-  if (section) section.classList.add("active");
-  if (name === "users") refreshUsersInner();
-  var idx = { principal: 0, converter: 1, users: 2, about: 2, help: 3 }[name];
-  if (idx !== undefined && items[idx]) items[idx].classList.add("active");
-}
-
 function showScreen(name) {
   document.getElementById("authScreen").classList.remove("active");
   document.getElementById("converterScreen").classList.remove("active");
@@ -134,58 +121,6 @@ function clearAllData() {
   }
 }
 
-function downloadUsers() {
-  db.collection("users").get().then(function(snapshot) {
-    if (snapshot.empty) { alert("No hay usuarios registrados"); return; }
-    var text = "=== HYDRA CLIENT - USUARIOS REGISTRADOS ===\r\n";
-    text += "Fecha: " + new Date().toLocaleString() + "\r\n";
-    text += "Total: " + snapshot.size + " usuarios\r\n";
-    text += "========================================\r\n\r\n";
-    snapshot.forEach(function(doc) {
-      var u = doc.data();
-      text += u.username + "\r\n";
-    });
-    var blob = new Blob([text], { type: "text/plain" });
-    var a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "usuarios_hydra.txt";
-    a.click();
-  });
-}
-
-function refreshUsersInner() {
-  var list = document.getElementById("usersListInner");
-  if (!list) return;
-  db.collection("users").get().then(function(snapshot) {
-    if (snapshot.empty) { list.innerHTML = "<div style='text-align:center;color:var(--text-muted);padding:40px 20px;'>No hay usuarios registrados</div>"; return; }
-    var html = "";
-    snapshot.forEach(function(doc) {
-      var u = doc.data();
-      html += "<div class='user-item'><span class='user-name'>" + u.username + "</span></div>";
-    });
-    list.innerHTML = html;
-    updateStatUsers(snapshot.size);
-  });
-}
-
-function updateStatUsers(count) {
-  var el = document.getElementById("statUsers");
-  if (el) el.textContent = count;
-}
-
-auth.onAuthStateChanged(function(user) {
-  var ud = document.getElementById("userDisplay");
-  var ud2 = document.getElementById("userDisplay2");
-  if (user) {
-    showScreen("converter");
-    if (ud) ud.textContent = "Bienvenido, " + user.displayName;
-    if (ud2) ud2.textContent = user.displayName;
-    refreshUsersInner();
-  } else {
-    showScreen("auth");
-  }
-});
-
 function copyCode() {
   var code = document.getElementById("cppOutput").textContent;
   var btn = document.getElementById("copyBtn");
@@ -199,6 +134,34 @@ function copyCode() {
     }, 1500);
   });
 }
+  var code = document.getElementById("cppOutput").textContent;
+  var btn = document.getElementById("copyBtn");
+  navigator.clipboard.writeText(code).then(function() {
+    var original = btn.querySelector(".btn-text").textContent;
+    btn.querySelector(".btn-text").textContent = "✔️ Copied!";
+    btn.classList.add("loading");
+    setTimeout(function() {
+      btn.querySelector(".btn-text").textContent = original;
+      btn.classList.remove("loading");
+    }, 1500);
+  });
+}
+
+}
+  });
+}
+
+auth.onAuthStateChanged(function(user) {
+  var ud = document.getElementById("userDisplay");
+  var ud2 = document.getElementById("userDisplay2");
+  if (user) {
+    showScreen("converter");
+    if (ud) ud.textContent = "Bienvenido, " + user.displayName;
+    if (ud2) ud2.textContent = user.displayName;
+  } else {
+    showScreen("auth");
+  }
+});
 
 var aobInput = document.getElementById("aobInput");
 var cppOutput = document.getElementById("cppOutput");

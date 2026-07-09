@@ -125,37 +125,13 @@
   </div>
 
   <div id="converterScreen" class="screen">
-    <div class="main-layout">
-      <div class="sidebar">
-        <div class="sidebar-item active" onclick="showSection('principal')">⚡ Principal</div>
-        <div class="sidebar-item" onclick="showSection('converter')">🔄 Converter</div>
-        <div class="sidebar-item" onclick="showSection('users')">👥 Usuarios</div>
-        <div class="sidebar-item" onclick="downloadUsers()">📥 Descargar</div>
-        <div class="sidebar-item" onclick="showSection('about')">ℹ️ Acerca de</div>
-        <div class="sidebar-item" onclick="showSection('help')">❓ Ayuda</div>
-      </div>
-      <div class="content-area">
-        <div id="sectionPrincipal" class="section-content active">
-          <div class="card welcome-card">
-            <div class="welcome-content">
-              <div class="welcome-icon">⚡</div>
-              <h1>Hydra Client</h1>
-              <p class="welcome-desc">AOB TO C++ CONVERTER</p>
-              <p class="welcome-sub">Welcome to <strong>Hydra Client Code</strong><br>Advanced AOB to C++ array converter</p>
-              <div class="stats">
-                <div class="stat"><span class="stat-value" id="statUsers">0</span><span class="stat-label">Users</span></div>
-                <div class="stat"><span class="stat-value" id="statConversions">0</span><span class="stat-label">Conversions</span></div>
-              </div>
-              <p class="credit">⚡ By Hydra Infinity Code</p>
-            </div>
+    <div class="content-area">
+      <div id="sectionConverter" class="section-content active">
+        <div class="card converter-card" id="hover-card">
+          <div class="converter-header">
+            <h1>Hydra Client</h1>
+            <div id="userDisplay2"></div>
           </div>
-        </div>
-        <div id="sectionConverter" class="section-content">
-          <div class="card converter-card" id="hover-card">
-            <div class="converter-header">
-              <h1>Hydra Client</h1>
-              <div id="userDisplay2"></div>
-            </div>
             <div class="converter-body">
               <div class="input-group">
                 <label for="aobInput">AOB Pattern</label>
@@ -171,26 +147,6 @@
                 <span class="btn-loader"></span>
               </button>
             </div>
-          </div>
-        </div>
-        <div id="sectionUsers" class="section-content">
-          <div class="card">
-            <div class="card-header"><h1>Usuarios</h1></div>
-            <div id="usersListInner" class="users-list"></div>
-            <button class="btn btn-primary" onclick="downloadUsers()" style="margin-top:15px;">📥 Descargar usuarios.txt</button>
-            <button class="btn btn-danger" onclick="clearAllData()" style="margin-top:10px;">🗑️ Borrar TODOS los datos</button>
-          </div>
-        </div>
-        <div id="sectionAbout" class="section-content">
-          <div class="card">
-            <div class="card-header"><h1>Hydra Client</h1></div>
-            <p style="color:var(--text-soft);font-size:16px;line-height:1.8;">⚡ AOB TO C++ CONVERTER<br><br>Versión 1.0<br>© 2026 BY HYDRA INFINITY CODE</p>
-          </div>
-        </div>
-        <div id="sectionHelp" class="section-content">
-          <div class="card">
-            <div class="card-header"><h1>Ayuda</h1></div>
-            <p style="color:var(--text-soft);font-size:14px;line-height:1.8;">Pega tu AOB en el campo de texto.<br>Ejemplo: A1 B2 00 4F ?? 1C<br><br>?? = byte desconocido<br>Los bytes se convierten a formato C++</p>
           </div>
         </div>
       </div>
